@@ -71,15 +71,13 @@ To support the online annotation for the LM-based preference functions descriped
  - `InferenceBasedLLM`: the LLM which is based on the inference of a pretrained language model.
 
 
-### Evaluation
+## Evaluation
 
 TO BE ADDED
 
 ## Data Flow
 
-To train the policies, for a given source domain dataset $\mathbb{D}$, the data flow in a single training iteration during the *alignment* (e.g. RLHF or DPO) is descriped as follows.
+To train the policies, for a given source domain dataset $\mathbb{D}$, the data flow in a single training iteration during the *alignment* (e.g. RLHF or DPO) is shown in the diagram below.
 Hereby, we assume that batch size is $|B|$.
 
-  1. Exact a batch of data $\mathbb{B}=\{(x_i, y_i^+, y_i^-)\}_{i=1}^{|B|}$ from $\mathbb{D}$.
-  2. If the preference function is a pointwise one, goto step 3; otherwise goto step 4.
-  3. Annotate 
+![Data flow in one step of training iteration.](./data_flow.png)
