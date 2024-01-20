@@ -80,4 +80,4 @@ TO BE ADDED
 To train the policies, for a given source domain dataset $\mathbb{D}$, the data flow in a single training iteration during the *alignment* (e.g. RLHF or DPO) is shown in the diagram below.
 Hereby, we assume that batch size is $|B|$.
 
-![Data flow in one step of training iteration.](./data_flow.png)
+![Data flow in one step of training iteration.](https://github.com/Shawn-Guo-CN/Domain_Adaptation_LLMs/blob/main/docs/figs/data_flow.png)
