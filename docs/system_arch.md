@@ -29,8 +29,8 @@ To achieve our research aim, there's no need to change their data loading module
 So, we just summarize the major types of their loaders as follows.
 
  - `SFTDataLoader`: used to load data for SFT. The returned data dictionary is of the format `{'prompt_text': str, 'target_text': str, 'prompt_token_ids': ArrayLike, 'prompt_attention_mask': ArrayLike, 'target_token_ids': ArrayLike, 'target_attention_mask': ArrayLike}`.
- - `UnpairedPreferenceDataLoader`: used to load unpaired preference data. The returned data dictionary is of the format `{'prompt_text': str, 'target_text': str, 'prompt_token_ids': ArrayLike, 'prompt_attention_mask': ArrayLike, 'target_token_ids': ArrayLike, 'target_attention_mask': ArrayLike, 'status': Union['chosen', 'rejected']}`.
- - `PairedPreferenceDataLoader`: used to load pairwise preference data. The returned data dictionary is of the format `{'prompt_text': str, 'chosen_text': str, 'prompt_token_ids': ArrayLike, 'prompt_attention_mask': ArrayLike, 'chosen_token_ids': ArrayLike, 'chosen_attention_mask': ArrayLike, 'rejected_token_ids': ArrayLike, 'rejected_attention_mask': ArrayLike,}`.
+ - `PointwisePreferenceDataLoader`: used to load unpaired preference data. The returned data dictionary is of the format `{'prompt_text': str, 'target_text': str, 'prompt_token_ids': ArrayLike, 'prompt_attention_mask': ArrayLike, 'target_token_ids': ArrayLike, 'target_attention_mask': ArrayLike, 'status': Union['chosen', 'rejected']}`.
+ - `PairwisePreferenceDataLoader`: used to load pairwise preference data. The returned data dictionary is of the format `{'prompt_text': str, 'chosen_text': str, 'prompt_token_ids': ArrayLike, 'prompt_attention_mask': ArrayLike, 'chosen_token_ids': ArrayLike, 'chosen_attention_mask': ArrayLike, 'rejected_token_ids': ArrayLike, 'rejected_attention_mask': ArrayLike,}`.
 
 ### Model
 
@@ -47,6 +47,18 @@ The modification we need to make is to support the following features:
 
 - re-weighting functions in the loss calculation
 - pseudo label generation
+
+## Density Estimators
+
+Density estimators are used to change the weights of samples when calculating the loss for the LLM policy.
+They are specifically used together with all `Offline` preference functions, i.e. `OfflinePointwisePreferenceFunction` and `OfflinePairwisePreferenceFunction`.
+So far, the desity estimators we're going to support include the following ones.
+
+ - `UniformDensityEstimator`: the uniform density estimator, which assigns the same weight to all samples.
+ This is the default option for most cases.
+ - `RSODensityEstimator`: this is the one implemented in the [RSO paper](https://arxiv.org/abs/2309.06657).
+ - `ImportanceDensityEstimator`: when the source domain data generator is available, e.g. the GPT-2 model that generated the `StylisticContinuation` dataset from OpenAI is open-sourced, we can use the importance density estimator to re-weight the source domain data to make it closer to the target domain distribution.
+ - **Others**: TBD.
 
 ## Preference Models
 
@@ -81,3 +93,5 @@ To train the policies, for a given source domain dataset $\mathbb{D}$, the data 
 Hereby, we assume that batch size is $|B|$.
 
 ![Data flow in one step of training iteration.](https://github.com/Shawn-Guo-CN/Domain_Adaptation_LLMs/blob/main/docs/figs/data_flow.png)
+
+The `PointwisePreferenceFunction` and `PairwisePreferenceFunction` used to generate the pseudo labels for the target domain data sampled from the policy $\pi$ are illustrated in the above section Preference Models.
