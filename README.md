@@ -1,11 +1,21 @@
 
-# Alignment of LLMs as a Domain Adaptation Problem
+# Alignment of LLMs - from a Domain Adaptation Persective
 
 This repo is forked from the [HALOs](https://github.com/ContextualAI/HALOs) project, but modified serveral components to adapt to our research purpose.
 
 In this project, we're going to explore various domain adaptation methods for the alignment of LLMs.
 In our setup, the "source domain" referes to the distribution of the preference data $\mathbb{D}=\{(x_i, y_i^+, y_i^-)\}_{i=1}^{N}$ used to train either reward models (in [RLHF](https://github.com/opendilab/awesome-RLHF)) or the LLM policies directly (by e.g. [DPO](https://github.com/eric-mitchell/direct-preference-optimization)).
 The "target domain", on the other hand, refers to the disitribution over the responses specified by the LLM (a.k.k. the "behavioral policy") which we aim to align with $\mathbb{D}$.
+
+## Unified Trainers
+
+At the moment, the two most popular methods for aligning LLMs are
+
+ - **Reinforcement Learning from Human Feedback (RLHF)**: in such methods, we can train a reward model on the preference data $\mathbb{D}$ and use it to guide the training of the LLM policy.
+ - **Direct Preference Learning (DPL)**: in such methods, we can train the LLM policy directly on the preference data $\mathbb{D}$, e.g. by [DPO](https://github.com/eric-mitchell/direct-preference-optimization) or [IPO](https://arxiv.org/abs/2310.12036).
+
+
+
 
 ## Domain Adaptation Methods
 
